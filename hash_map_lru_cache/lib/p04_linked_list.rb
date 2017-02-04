@@ -73,15 +73,19 @@ include Enumerable
   end
 
   def append(key, val)
-    new_link = Link.new(key, val)
-    if empty?
-      new_link.prev, new_link.next = @head, @tail
-      @head.next = new_link
-      @tail.prev = new_link
+    if include?(key)
+      update(key, val)
     else
-      new_link.prev, new_link.next = last, @tail
-      last.next = new_link
-      @tail.prev = new_link
+      new_link = Link.new(key, val)
+      if empty?
+        new_link.prev, new_link.next = @head, @tail
+        @head.next = new_link
+        @tail.prev = new_link
+      else
+        new_link.prev, new_link.next = last, @tail
+        last.next = new_link
+        @tail.prev = new_link
+      end
     end
   end
 
